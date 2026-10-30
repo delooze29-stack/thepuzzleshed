@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Puzzle Shed</title>
+<meta name="description" content="Daily puzzle games by Mathew Doughty. Tally is out now, with more on the way.">
+<meta name="theme-color" content="#1c2431">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231c2431'/%3E%3Cpath d='M14 30 32 16l18 14v20H14z' fill='%2322915d'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@800;900&family=Figtree:wght@400;600;700&display=swap">
+<style>
+:root{--bg:#f1efe9;--card:#ffffff;--ink:#1c2431;--muted:#5b6475;--line:#d9d5cb;--green:#22915d;--amber:#d4951a;
+  --display:"Big Shoulders Display","Arial Narrow",Impact,sans-serif;--body:"Figtree",system-ui,-apple-system,"Segoe UI",sans-serif;color-scheme:light}
+@media (prefers-color-scheme:dark){:root{--bg:#12161d;--card:#1b222d;--ink:#e7ebf2;--muted:#97a0b1;--line:#2f3745;color-scheme:dark}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);line-height:1.5}
+.wrap{max-width:720px;margin:0 auto;padding:48px max(20px,env(safe-area-inset-right)) 48px max(20px,env(safe-area-inset-left));display:grid;gap:28px}
+h1{font-family:var(--display);font-weight:900;font-size:clamp(44px,11vw,76px);letter-spacing:.03em;text-transform:uppercase;line-height:.95;margin:0}
+.lead{font-size:18px;color:var(--muted);margin:0;max-width:52ch}
+.games{display:grid;gap:14px}
+.game{display:flex;gap:16px;align-items:center;padding:18px;border-radius:14px;background:var(--card);border:1px solid var(--line);text-decoration:none;color:inherit}
+a.game:hover{border-color:var(--green)}
+.tile{flex:0 0 56px;height:56px;border-radius:12px;display:grid;place-items:center;font-family:var(--display);font-weight:900;font-size:30px;color:#fff}
+.game h2{margin:0;font-size:19px}
+.game p{margin:2px 0 0;color:var(--muted);font-size:15px}
+.tag{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:3px 8px;border-radius:6px;margin-left:auto;white-space:nowrap}
+.live{background:var(--green);color:#fff}.soon{border:1px solid var(--line);color:var(--muted)}
+footer{color:var(--muted);font-size:14px;border-top:1px solid var(--line);padding-top:18px}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <header style="display:grid;gap:14px">
+    <h1>The Puzzle Shed</h1>
+    <p class="lead">Small daily puzzles to play on your phone, with leaderboards, challenges and leagues for your friends.</p>
+  </header>
+  <section class="games" aria-label="Games">
+    <a class="game" href="https://delooze29-stack.github.io/tally/">
+      <span class="tile" style="background:var(--green)">7</span>
+      <span><h2>Tally</h2><p>Crack the 5-digit code in 7 guesses. New codes at 6am and 8pm.</p></span>
+      <span class="tag live">Play</span>
+    </a>
+    <div class="game">
+      <span class="tile" style="background:var(--amber)">L</span>
+      <span><h2>Letterbox</h2><p>Dots and boxes, where every box you win reveals a letter.</p></span>
+      <span class="tag soon">Coming soon</span>
+    </div>
+    <div class="game">
+      <span class="tile" style="background:#5b6bd6">C</span>
+      <span><h2>Off the Cuff</h2><p>Think fast: one letter, a list of categories, and a ticking clock.</p></span>
+      <span class="tag soon">Coming soon</span>
+    </div>
+  </section>
+  <footer>Questions or ideas? Email <strong style="user-select:all">tallypuzzle@gmail.com</strong><br>© 2026 Mathew Doughty. All rights reserved.</footer>
+</main>
+</body>
+</html>
