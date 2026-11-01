@@ -263,6 +263,17 @@ function draw(id,rows,emptyMsg,metaMsg){
 }
 
 function app(name,cfg){try{return firebase.initializeApp(cfg,name).firestore()}catch(e){console.warn(e);return null}}
+/* How many of these players are brand new: their whole history is just the games counted here. */
+async function newCount(db,counts){
+  const ids=Object.keys(counts);if(!ids.length)return 0;
+  const FP=firebase.firestore.FieldPath.documentId();let n=0;
+  for(let i=0;i<ids.length;i+=30){
+    const q=await db.collection('players').where(FP,'in',ids.slice(i,i+30)).get();
+    q.docs.forEach(d=>{const pl=d.data().played||0;if(pl<=counts[d.id])n++});
+  }
+  return n;
+}
+const plural=(n,w)=>`${n} ${w}${n===1?'':'s'}`;
 const hasFb=typeof firebase!=='undefined';
 
 /* ----- Tally: same rules as the game's "Today" tab ----- */
@@ -294,7 +305,10 @@ async function tally(){
     q.docs.forEach(d=>{const x=d.data();if((lucky[x.uid]||0)>=LUCKY_HOLD)return;
       const r=by[x.uid]||(by[x.uid]={name:x.name,pts:0,secs:0});r.pts+=x.points||0;r.secs+=x.secs||0});
     const rows=Object.values(by).sort((a,b)=>b.pts-a.pts||(a.secs||1e9)-(b.secs||1e9));
-    draw('tallyBoard',rows,p.h<6?"Today's first code starts at 6am.":"No scores yet today. Be the first.",rows.length?`${rows.length} ${rows.length===1?'player':'players'} today`:'');
+    const counts={};q.docs.forEach(d=>{const u=d.data().uid;counts[u]=(counts[u]||0)+1});
+    const total=Object.keys(counts).length;
+    draw('tallyBoard',rows,p.h<6?"Today's first code starts at 6am.":"No scores yet today. Be the first.",total?`${plural(total,'player')} today`:'');
+    newCount(db,counts).then(n=>{if(n)draw('tallyBoard',rows,'',`${plural(total,'player')} today, ${n} new 👋`)}).catch(e=>console.warn(e));
   }catch(e){console.warn(e);draw('tallyBoard',null)}
 }
 
@@ -314,7 +328,10 @@ async function letterbox(){
     const by={};
     q.docs.forEach(d=>{const x=d.data();const r=by[x.uid]||(by[x.uid]={name:x.name,pts:0,n:0});r.pts+=x.points||0;r.n++});
     const rows=Object.values(by).sort((a,b)=>b.pts-a.pts||b.n-a.n);
-    draw('lbBoard',rows,"Fresh week, clean board. Get the first score on it.",rows.length?`${rows.length} ${rows.length===1?'player':'players'} this week`:'');
+    const counts={},today=new Set();q.docs.forEach(d=>{const x=d.data();counts[x.uid]=(counts[x.uid]||0)+1;if(x.day===LB_DAY)today.add(x.uid)});
+    const line=extra=>rows.length?`${plural(today.size,'player')} today, ${rows.length} this week${extra||''}`:'';
+    draw('lbBoard',rows,"Fresh week, clean board. Get the first score on it.",line());
+    newCount(db,counts).then(n=>{if(n)draw('lbBoard',rows,'',line(`, ${n} new 👋`))}).catch(e=>console.warn(e));
   }catch(e){console.warn(e);draw('lbBoard',null)}
 }
 
